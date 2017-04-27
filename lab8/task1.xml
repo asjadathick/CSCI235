@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<university>
+	<campus cname="Wollongong">
+		<city>Wollongong</city>
+		<street>Northfields</street>
+
+		<building bldg-num="6">
+			<name>Smart</name>
+			<room room-num="1">
+				<type>Lecture</type>
+				<area>5</area>
+			</room>
+
+			<room room-num="2">
+				<type>Lab</type>
+				<area>15</area>
+			</room>
+		</building>
+
+		<building bldg-num="20">
+			<name>Communications</name>
+			<room room-num="1">
+				<type>Lecture</type>
+				<area>5</area>
+			</room>
+
+			<room room-num="1">
+				<type>Lecture</type>
+				<area>5</area>
+			</room>
+		</building>
+
+	</campus>
+
+	<campus cname="Dubai">
+		<city>Dubai</city>
+		<street>Dubai Road</street>
+
+		<building bldg-num="6">
+			<name>Smart</name>
+			<room room-num="1">
+				<type>Lecture</type>
+				<area>5</area>
+			</room>
+
+			<room room-num="2">
+				<type>Lab</type>
+				<area>15</area>
+			</room>
+		</building>
+
+		<building bldg-num="20">
+			<name>Communications</name>
+			<room room-num="1">
+				<type>Lecture</type>
+				<area>5</area>
+			</room>
+			
+			<room room-num="1">
+				<type>Lecture</type>
+				<area>5</area>
+			</room>
+		</building>
+
+	</campus>
+</university>

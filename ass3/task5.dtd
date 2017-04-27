@@ -1,0 +1,18 @@
+<!ELEMENT multicompany (natdivision+)>
+<!ELEMENT natdivision (country, address, branch+)>
+<!ELEMENT address (city, street, building, phone?, fax?)>
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT street (#PCDATA)>
+<!ELEMENT building (#PCDATA)>
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT fax (#PCDATA)>
+<!ELEMENT branch (address, name, department+)>
+<!ELEMENT name (fistname, initials, lastname)>
+<!ELEMENT firstname (#PCDATA)>
+<!ELEMENT initials (#PCDATA)>
+<!ELEMENT lastname (#PCDATA)>
+<!ELEMENT department (departmentname, name, budget, employee*)>
+<!ELEMENT departmentname (#PCDATA)>
+<!ELEMENT budget (#PCDATA)>
+<!ELEMENT employee (name, position)>
+<!ELEMENT position (#PCDATA)>

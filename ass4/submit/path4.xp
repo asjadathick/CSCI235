@@ -1,0 +1,1 @@
+//bookshop/book[attribute::IDREF=(//bookshop/product[price[attribute::currency="AU$"]]/attribute::ID)]/title | //bookshop/journal[attribute::IDREF=(//bookshop/product[price[attribute::currency="AU$"]]/attribute::ID)]/title

@@ -1,0 +1,111 @@
+SQL> SET ECHO ON
+SQL> SET linesize 100
+SQL> --Task1.1
+SQL> CREATE OR REPLACE VIEW TASK1POINT1 AS
+	SELECT A1.FIRST_NAME, A1.LAST_NAME, S1.CODE, S1.NAME FROM RunningSubject R1 JOIN Subject S1
+	ON R1.CODE = S1.CODE JOIN Teaches T1 ON
+	T1.CODE = R1.CODE AND T1.ASESSION = R1.ASESSION AND T1.YEAR = R1.YEAR JOIN Academic A1
+	ON T1.LECTURER = A1.STAFF#
+	WHERE S1.CREDITS >= 12 AND R1.ENROLMENT > 50;
+
+View TASK1POINT1 created.
+
+SQL> SELECT * FROM TASK1POINT1;
+
+FIRST_NAME                     LAST_NAME                      CODE
+------------------------------ ------------------------------ -------
+NAME                                                                                               
+----------------------------------------------------------------------------------------------------
+Bill                           Gates                          CSCI321 
+Project                                                                                             
+
+Steven                         Jobs                           CSCI321 
+Project                                                                                             
+
+Indiana                        Jones                          CSCI321 
+Project                                                                                             
+
+
+SQL> --Task1.2
+SQL> CREATE OR REPLACE VIEW TASK1POINT2 AS
+	  SELECT S1.CODE, S1.NAME, count(A1.staff#) As "Total Lecturers" FROM RunningSubject R1 JOIN Subject S1
+	  ON R1.CODE = S1.CODE JOIN Teaches T1 ON
+	  T1.CODE = R1.CODE AND T1.ASESSION = R1.ASESSION AND T1.YEAR = R1.YEAR JOIN Academic A1
+	  ON T1.LECTURER = A1.STAFF#
+	  WHERE R1.YEAR<2016 AND S1.CODE IN ('CSCI235','CSCI212','CSCI222')
+	  GROUP BY S1.CODE, S1.NAME;
+
+View TASK1POINT2 created.
+
+SQL> SELECT * FROM TASK1POINT2;
+
+CODE
+-------
+NAME
+----------------------------------------------------------------------------------------------------
+                        Total Lecturers
+---------------------------------------
+CSCI235 
+Databases                                                                                           
+                                      6
+
+CSCI222 
+Systems Development                                                                                 
+                                      6
+
+SQL> --Task1.3
+SQL> CREATE OR REPLACE VIEW TASK1POINT3 AS
+  SELECT A1.STAFF#, A1.FIRST_NAME, A1.LAST_NAME FROM Academic A1
+  WHERE A1.STAFF# NOT IN (SELECT lecturer FROM Teaches WHERE year = EXTRACT(YEAR FROM sysdate) AND ASESSION='AUTUMN');
+
+View TASK1POINT3 created.
+
+SQL> SELECT * FROM TASK1POINT3;
+
+    STAFF# FIRST_NAME                     LAST_NAME                    
+---------- ------------------------------ ------------------------------
+1000000060 George                         Lucas                         
+1000000020 Mark                           Zuckerberg                    
+1000000040 Indiana                        Jones                         
+1000000090 Albus                          Dumbledore                    
+1000000030 James                          Bond                          
+1000000080 Harry                          Potter                        
+1000000010 Bill                           Gates                         
+1000000110 Severus                        Snape                         
+1000000120 Rubeus                         Hagrid                        
+1000000015 Steven                         Jobs                          
+
+ 10 rows selected 
+
+SQL> --Task1.4
+SQL> CREATE OR REPLACE VIEW TASK1POINT4 AS
+SELECT DISTINCT A.staff#, A.first_name, A.last_name
+FROM Academic A
+JOIN Teaches T1 ON T1.lecturer = A.staff#
+	AND T1.code = 'CSCI235'
+JOIN Teaches T2 ON T2.lecturer = A.staff#
+	AND T2.code = 'CSCI204'
+JOIN Teaches T3 ON T3.lecturer = A.staff#
+	AND T3.code = 'CSCI222';
+
+View TASK1POINT4 created.
+
+SQL> INSERT INTO Teaches VALUES ('CSCI235', 'AUTUMN', 2016, 1000000010);
+
+1 row inserted.
+
+SQL> INSERT INTO Teaches VALUES ('CSCI204', 'AUTUMN', 2016, 1000000010);
+
+1 row inserted.
+
+SQL> INSERT INTO Teaches VALUES ('CSCI222', 'AUTUMN', 2016, 1000000010);
+
+1 row inserted.
+
+SQL> SELECT * FROM TASK1POINT4;
+
+    STAFF# FIRST_NAME                     LAST_NAME                    
+---------- ------------------------------ ------------------------------
+1000000010 Bill                           Gates                         
+
+SQL> spool off;

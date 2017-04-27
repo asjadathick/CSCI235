@@ -1,0 +1,52 @@
+SQL> @task4
+SQL> SELECT ptitle FROM Position
+  2  WHERE EXISTS (select Applies.p# FROM Applies);
+
+PTITLE                                                                                              
+------------------------------                                                                      
+LECTURER                                                                                            
+LECTURER                                                                                            
+SENIOR LECTURER                                                                                     
+ASSOC. PROFESSOR                                                                                    
+PROFESSOR                                                                                           
+PROFESSOR                                                                                           
+PROFESSOR                                                                                           
+
+7 rows selected.
+
+SQL> 
+SQL> SELECT Applicant.fname || ' ' || Applicant.lname AS "Full Name" FROM Applicant WHERE
+  2  Applicant.a# IN (select a# from Applies);
+
+Full Name                                                                                           
+---------------------------------------------------                                                 
+PETER JONES                                                                                         
+JOHN BLACK                                                                                          
+MARY WHITE                                                                                          
+MICHAEL COLLINS                                                                                     
+MARGARET FINCH                                                                                      
+GARY KASPAROW                                                                                       
+CLAUDIA HOFFMAN                                                                                     
+STEPHEN STAUNTON                                                                                    
+JOSEPH STAUNTON                                                                                     
+JANUSZ GETTA                                                                                        
+
+10 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT ctitle FROM CoursePassed WHERE A# IN (SELECT A.a# FROM Applies A WHERE A.p# in (SELECT p# FROM SNeeded WHERE sname='C PROGRAMMING'));
+
+CTITLE                                                                                              
+--------------------------------------------------                                                  
+ADVANCED JAVA                                                                                       
+C PROGRAMMING                                                                                       
+COOKING                                                                                             
+JAVA PROGRAMMING                                                                                    
+JAVA PROGRAMMING                                                                                    
+TRUCK DRIVING                                                                                       
+
+6 rows selected.
+
+SQL> spool off;

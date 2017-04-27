@@ -1,0 +1,27 @@
+SQL> @task1
+SQL> 
+SQL> 
+SQL> SELECT S2.requires FROM SREQUIRED S1
+  2  JOIN SREQUIRED S2
+  3  ON S2.sname = S1.requires
+  4  WHERE S1.sname = 'C++ programming';
+
+REQUIRES                                                                                                                                                                                                
+------------------------------                                                                                                                                                                          
+reading                                                                                                                                                                                                 
+writing                                                                                                                                                                                                 
+
+SQL> 
+SQL> SELECT S2.sname FROM SREQUIRED S1
+  2  JOIN SREQUIRED S2
+  3  ON S1.sname = S2.requires
+  4  WHERE S1.requires = 'writing';
+
+SNAME                                                                                                                                                                                                   
+------------------------------                                                                                                                                                                          
+C++ programming                                                                                                                                                                                         
+Java programming                                                                                                                                                                                        
+PHP programming                                                                                                                                                                                         
+database administration                                                                                                                                                                                 
+
+SQL> spool off;

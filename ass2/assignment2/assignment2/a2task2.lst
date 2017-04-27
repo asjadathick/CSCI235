@@ -1,0 +1,204 @@
+SQL> --Task2.1
+SQL> SELECT Department.D#, Department.DName
+FROM Department JOIN DeptLocation
+ON Department.D# = DeptLocation.D#
+WHERE  UPPER(DeptLocation.Address) LIKE '%WOLLONGONG%';
+
+        D# DNAME                        
+---------- ------------------------------
+         1 SALES                         
+         3 GAMES                         
+         3 GAMES                         
+         6 Research Centre               
+
+SQL> --Task2.2
+SQL> SELECT Department.D#, Department.DName, Department.Manager# FROM Department
+WHERE Department.D# NOT IN (SELECT D# FROM Project);
+
+        D# DNAME                          MANAG
+---------- ------------------------------ -----
+         4 HUMAN RESOURCES                00200
+         2 ACCOUNTING                     00120
+
+SQL> --Task2.3
+SQL> SELECT Department.D#, Department.DName, COALESCE(sum(Project.Budget),0) AS "TOTAL BUDGETS"
+FROM Department FULL JOIN Project
+ON Department.D# = Project.D#
+GROUP BY Department.D#, Department.DName;
+
+        D# DNAME                                                    TOTAL BUDGETS
+---------- ------------------------------ ---------------------------------------
+         1 SALES                          
+                                  25000
+
+         4 HUMAN RESOURCES                
+                                      0
+
+         3 GAMES                          
+                                 400000
+
+         2 ACCOUNTING                     
+                                      0
+
+        D# DNAME                                                    TOTAL BUDGETS
+---------- ------------------------------ ---------------------------------------
+         6 Research Centre                
+                                 200000
+
+
+SQL> --Task2.4
+SQL> SELECT Employee.E#, Employee.Name, Employee.D#, COALESCE(sum(WorksOn.Hours),0) AS "TOTAL HOURS/W"
+FROM Employee FULL JOIN WorksOn
+ON Employee.E# = WorksOn.E#
+GROUP BY Employee.E#, Employee.Name, Employee.D#;
+
+E#    NAME                                   D#
+----- ------------------------------ ----------
+                          TOTAL HOURS/W
+---------------------------------------
+00110 Alvin                                   1 
+                                     10
+
+00250 Douglass                                3 
+                                     15
+
+00107 Wendy                                   1 
+                                      0
+
+
+E#    NAME                                   D#
+----- ------------------------------ ----------
+                          TOTAL HOURS/W
+---------------------------------------
+00100 Albert                                    
+                                      0
+
+00200 Carl                                    4 
+                                      0
+
+00109 Michael                                 1 
+                                      0
+
+
+E#    NAME                                   D#
+----- ------------------------------ ----------
+                          TOTAL HOURS/W
+---------------------------------------
+00125 Angela                                  2 
+                                      0
+
+00150 Bob                                     3 
+                                     10
+
+00136 Aban                                    4 
+                                      0
+
+
+E#    NAME                                   D#
+----- ------------------------------ ----------
+                          TOTAL HOURS/W
+---------------------------------------
+00103 Ami                                     1 
+                                      0
+
+00101 Peter                                   1 
+                                     20
+
+00105 Robert                                  3 
+                                     65
+
+
+E#    NAME                                   D#
+----- ------------------------------ ----------
+                          TOTAL HOURS/W
+---------------------------------------
+00120 Alice                                   2 
+                                      0
+
+00187 Eadger                                  3 
+                                     25
+
+00271 Garret                                  6 
+                                      0
+
+
+ 15 rows selected 
+
+SQL> --Task2.5
+SQL> SELECT Employee.E#, Employee.Name 
+FROM Employee JOIN Department
+ON Employee.D# = Department.D#
+WHERE Department.Manager# = (SELECT Employee.E# FROM Employee WHERE Employee.Name = 'Alvin') AND Employee.E# <> (SELECT Employee.E# FROM Employee WHERE Employee.Name = 'Alvin');
+
+E#    NAME                         
+----- ------------------------------
+00101 Peter                         
+00103 Ami                           
+00107 Wendy                         
+00109 Michael                       
+
+SQL> --Task2.6
+SQL> SELECT Employee.E#, Employee.Name FROM Employee
+WHERE NOT EXISTS (SELECT * FROM Dependent WHERE Dependent.E# = Employee.E#);
+
+E#    NAME                         
+----- ------------------------------
+00136 Aban                          
+00109 Michael                       
+00271 Garret                        
+00200 Carl                          
+00150 Bob                           
+00101 Peter                         
+00107 Wendy                         
+00105 Robert                        
+00125 Angela                        
+00250 Douglass                      
+00187 Eadger                        
+
+E#    NAME                         
+----- ------------------------------
+00110 Alvin                         
+00103 Ami                           
+
+ 13 rows selected 
+
+SQL> --Task2.7
+SQL> SELECT DISTINCT Employee.E#, Employee.Name
+FROM Employee JOIN WorksOn
+ON Employee.E# = WorksOn.E#
+WHERE (SELECT Project.Budget FROM Project WHERE Project.P# = WorksOn.P#) > 200000;
+
+E#    NAME                         
+----- ------------------------------
+00105 Robert                        
+
+SQL> --Task2.8
+SQL> SELECT Project.Sponsor, sum(Project.Budget) as "Total Sponsored"
+FROM Project
+GROUP BY Project.Sponsor;
+
+SPONSOR                                                Total Sponsored
+------------------------------ ---------------------------------------
+Google                                                          200000
+Microsoft                                                        25000
+Education committee                                             140000
+Cloud Pty Ltd                                                   225000
+Football club                                                    35000
+
+SQL> --Task2.9
+SQL> SELECT Employee.E#, Employee.Name FROM Employee 
+WHERE Employee.E# IN (SELECT WorksOn.E# FROM WorksOn WHERE WorksOn.P# IN (SELECT P# FROM Project WHERE Project.Sponsor = 'Education committee'));
+
+E#    NAME                         
+----- ------------------------------
+00150 Bob                           
+00105 Robert                        
+
+SQL> --Task2.10
+SQL> SELECT  CAST(AVG(MONTHS_BETWEEN(SYSDATE, Employee.DOB)/12) AS INT) AS "AVERAEGE AGE" FROM Employee;
+
+                           AVERAEGE AGE
+---------------------------------------
+                                     36
+
+SQL> spool off;

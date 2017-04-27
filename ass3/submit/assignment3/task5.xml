@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE multicompany SYSTEM "task5.dtd">
+<multicompany>
+	<natdivision>
+		<country>Australia</country>
+		<address>
+			<city>Sydney</city>
+			<street>One Loop</street>
+			<building>1</building>
+			<phone>12345</phone>
+			<fax>122323</fax>
+		</address>
+		<branch>
+			<address>
+				<city>Sydney</city>
+				<street>One Loop</street>
+				<building>1</building>
+				<phone>12345</phone>
+				<fax>122323</fax>
+			</address>
+			<name>
+				<firstname>Asjad</firstname>
+				<initials>MA</initials>
+				<lastname>Athick</lastname>
+			</name>
+			<department>
+				<departmentname>IT</departmentname>
+				<name>
+					<firstname>Asjad</firstname>
+					<initials>MA</initials>
+					<lastname>Athick</lastname>
+				</name>
+				<employee>
+					<name>
+						<firstname>Asjad</firstname>
+						<initials>MA</initials>
+						<lastname>Athick</lastname>
+					</name>
+				</employee>
+			</department>
+		</branch>
+	</natdivision>
+</multicompany>

@@ -1,0 +1,87 @@
+SQL> @task2
+SQL> SELECT Applicant.fname || ' ' || Applicant.lname AS "Full Name", SPossessed.sname FROM
+  2  Applicant LEFT JOIN SPossessed
+  3  ON Applicant.a# = SPossessed.a#;
+
+Full Name                                           SNAME                                           
+--------------------------------------------------- ------------------------------                  
+PETER JONES                                         C PROGRAMMING                                   
+PETER JONES                                         COOKING                                         
+PETER JONES                                         JAVA PROGRAMMING                                
+JOHN BLACK                                          JAVA PROGRAMMING                                
+JOHN BLACK                                          TRUCK DRIVING                                   
+MARY WHITE                                          C++ PROGRAMMING                                 
+MARY WHITE                                          JAVA PROGRAMMING                                
+MARY WHITE                                          PAINTING                                        
+MARGARET FINCH                                      SQL PROGRAMMING                                 
+GARY KASPAROW                                       SQL PROGRAMMING                                 
+CLAUDIA HOFFMAN                                     COOKING                                         
+CLAUDIA HOFFMAN                                     SQL PROGRAMMING                                 
+STEPHEN STAUNTON                                    COOKING                                         
+STEPHEN STAUNTON                                    SQL PROGRAMMING                                 
+JANUSZ GETTA                                        COOKING                                         
+JANUSZ GETTA                                        DATABASE DESIGN                                 
+JANUSZ GETTA                                        PAINTING                                        
+JANUSZ GETTA                                        SQL PROGRAMMING                                 
+MICHAEL COLLINS                                                                                     
+JOSEPH STAUNTON                                                                                     
+
+20 rows selected.
+
+SQL> 
+SQL> SELECT S.skill, P.ptitle
+  2  FROM LSkill S
+  3  LEFT JOIN SNeeded SN
+  4  ON S.skill = SN.sname
+  5  LEFT JOIN Position P
+  6  ON P.p# = SN.p#;
+
+SKILL                          PTITLE                                                               
+------------------------------ ------------------------------                                       
+SQL PROGRAMMING                LECTURER                                                             
+JAVA PROGRAMMING               LECTURER                                                             
+COOKING                        LECTURER                                                             
+C PROGRAMMING                  LECTURER                                                             
+TRUCK DRIVING                  LECTURER                                                             
+JAVA PROGRAMMING               LECTURER                                                             
+DATABASE DESIGN                LECTURER                                                             
+PAINTING                       SENIOR LECTURER                                                      
+JAVA PROGRAMMING               SENIOR LECTURER                                                      
+C++ PROGRAMMING                SENIOR LECTURER                                                      
+SQL PROGRAMMING                ASSOC. PROFESSOR                                                     
+SQL PROGRAMMING                PROFESSOR                                                            
+PAINTING                       PROFESSOR                                                            
+COOKING                        PROFESSOR                                                            
+COOKING                        PROFESSOR                                                            
+SQL PROGRAMMING                PROFESSOR                                                            
+PAINTING                       PROFESSOR                                                            
+COOKING                        PROFESSOR                                                            
+NETWORK ADMIN.                                                                                      
+INFORMATION SYST. ADMIN                                                                             
+DATABASE ADMIN.                                                                                     
+
+21 rows selected.
+
+SQL> 
+SQL> SELECT Applicant.fname || ' ' || Applicant.lname AS FullName, count(SPossessed.a#) AS SkillCount
+  2  FROM Applicant LEFT JOIN SPossessed
+  3  ON Applicant.a# = SPossessed.a#
+  4  GROUP BY ( Applicant.fname || ' ' || Applicant.lname);
+
+FULLNAME                                            SKILLCOUNT                                      
+--------------------------------------------------- ----------                                      
+STEPHEN STAUNTON                                             2                                      
+PETER JONES                                                  3                                      
+CLAUDIA HOFFMAN                                              2                                      
+JOSEPH STAUNTON                                              0                                      
+MARY WHITE                                                   3                                      
+MICHAEL COLLINS                                              0                                      
+JOHN BLACK                                                   2                                      
+JANUSZ GETTA                                                 4                                      
+MARGARET FINCH                                               1                                      
+GARY KASPAROW                                                1                                      
+
+10 rows selected.
+
+SQL> 
+SQL> spool off

@@ -1,0 +1,129 @@
+SQL> SET ECHO ON
+SQL> SET FEEDBACK ON
+SQL> SET LINESIZE 100
+SQL> SET PAGESIZE 100
+SQL> SET SERVEROUTPUT ON
+SQL> CREATE OR REPLACE FUNCTION FINDAPPS(pNum IN APPLIES.PNUMBER%TYPE) RETURN VARCHAR
+IS
+	aNum APPLIES.ANUMBER%TYPE;
+	sPoss SPOSSESSED.SNAME%TYPE;
+	sPossLevel SPOSSESSED.SLEVEL%TYPE;
+	sNeed SNEEDED.SNAME%TYPE;
+	sNeedLevel SNEEDED.SLEVEL%TYPE;
+  needcount NUMBER;
+  possesscount NUMBER;
+
+	CURSOR Q1 IS
+		SELECT ANUMBER FROM APPLICANT;
+	CURSOR Q2 IS
+		SELECT SNAME, SLEVEL FROM SNEEDED WHERE PNUMBER = pNum;
+	CURSOR Q3 IS
+		SELECT SNAME, SLEVEL FROM SPOSSESSED WHERE ANUMBER = aNum AND SNAME = sNeed;
+
+	output VARCHAR(400);
+	brk BOOLEAN;
+BEGIN
+	output := pNum || ':';
+	OPEN Q1;
+	LOOP
+		FETCH Q1 INTO aNum;
+		IF Q1%NOTFOUND THEN EXIT; END IF;
+    
+    --check if spossess and sneed count are equal before proceeding
+    SELECT COUNT(*) INTO needcount FROM SNEEDED WHERE PNUMBER = pNum;
+    SELECT COUNT(*) INTO possesscount FROM SPOSSESSED WHERE SNAME = ANY (SELECT SNAME FROM SNEEDED WHERE PNUMBER=pNum) AND ANUMBER=aNum;
+    
+    brk := false;
+
+    IF needcount <> possesscount THEN
+      brk := true;
+      --output := output || 'cnt not equal';
+    END IF;
+    
+		OPEN Q2;
+		LOOP
+			FETCH Q2 INTO sNeed, sNeedLevel;
+			IF Q2%NOTFOUND THEN EXIT; END IF;
+      
+      
+			OPEN Q3;
+			LOOP
+				FETCH Q3 INTO sPoss, sPossLevel;
+				IF Q3%NOTFOUND THEN EXIT; END IF;
+
+				IF sNeedLevel > sPossLevel THEN
+					brk := true;
+				END IF;
+			END LOOP;
+			CLOSE Q3;
+		END LOOP;
+		CLOSE Q2;
+    IF brk = false THEN
+      output := output || aNum || ' ';
+    END IF;
+	END LOOP;
+	CLOSE Q1;
+
+	RETURN output;
+END FINDAPPS;
+/
+
+Function FINDAPPS compiled
+
+SQL> SELECT PNUMBER, TITLE, FINDAPPS(PNUMBER) FROM POSITION;
+
+   PNUMBER TITLE
+---------- ------------------------------
+FINDAPPS(PNUMBER)                                                                                  
+----------------------------------------------------------------------------------------------------
+         1 lecturer                       
+1:                                                                                                  
+
+         2 lecturer                       
+2:                                                                                                  
+
+         3 senior lecturer                
+3:                                                                                                  
+
+         4 associate professor            
+4:5 6 7 10 20                                                                                       
+
+         5 professor                      
+5:                                                                                                  
+
+         6 professor                      
+6:1 7 8 17                                                                                          
+
+         7 professor                      
+7:                                                                                                  
+
+         8 senior lecturer                
+8:1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20                                                
+
+         9 lecturer                       
+9:1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20                                                
+
+        10 associate professor            
+10:1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20                                               
+
+
+ 10 rows selected 
+
+SQL> SELECT FINDAPPS(PNUMBER) FROM POSITION;
+
+FINDAPPS(PNUMBER)                                                                                  
+----------------------------------------------------------------------------------------------------
+1:                                                                                                  
+2:                                                                                                  
+3:                                                                                                  
+4:5 6 7 10 20                                                                                       
+5:                                                                                                  
+6:1 7 8 17                                                                                          
+7:                                                                                                  
+8:1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20                                                
+9:1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20                                                
+10:1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20                                               
+
+ 10 rows selected 
+
+SQL> SPOOL OFF;

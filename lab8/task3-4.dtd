@@ -1,0 +1,5 @@
+<!ELEMENT expression ((number, operation, number) | (left-bracket, expression, right-bracket, operation, number))>
+<!ELEMENT number (#PCDATA)>
+<!ELEMENT operation (#PCDATA)>
+<!ELEMENT left-bracket (#PCDATA)>
+<!ELEMENT right-bracket (building+)>

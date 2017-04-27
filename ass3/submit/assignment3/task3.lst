@@ -1,0 +1,27 @@
+SQL> SET linesize 100
+SQL> --Task3.1
+SQL> GRANT ALL ON Teaches to SCOTT;
+
+Grant succeeded.
+
+SQL> --Task3.2
+SQL> GRANT CREATE TABLE TO SCOTT;
+
+Grant succeeded.
+
+SQL> GRANT REFERENCES (CODE) ON RunningSubject TO SCOTT;
+
+Grant succeeded.
+
+SQL> --Task3.3
+SQL> CREATE OR REPLACE VIEW TSK3 AS
+	SELECT * FROM Academic WHERE staff#
+	IN (SELECT Lecturer FROM Teaches WHERE code IN ('CSCI235', 'CSCI204', 'CSCI124'));
+
+View TSK3 created.
+
+SQL> GRANT SELECT ON TSK3 TO SCOTT;
+
+Grant succeeded.
+
+SQL> spool off;

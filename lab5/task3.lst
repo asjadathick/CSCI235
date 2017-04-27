@@ -1,0 +1,31 @@
+SQL> @task3
+SQL> SELECT P1.p#, P1.ptitle FROM POSITION P1
+  2  WHERE p# IN (SELECT p# FROM SNeeded WHERE sname = 'COOKING' and skilllevel>5);
+
+        P# PTITLE                                                                                   
+---------- ------------------------------                                                           
+         1 LECTURER                                                                                 
+         5 PROFESSOR                                                                                
+         7 PROFESSOR                                                                                
+
+SQL> 
+SQL> SELECT skill FROM LSkill
+  2  WHERE skill NOT IN (SELECT sname FROM SPossessed);
+
+SKILL                                                                                               
+------------------------------                                                                      
+DATABASE ADMIN.                                                                                     
+INFORMATION SYST. ADMIN                                                                             
+NETWORK ADMIN.                                                                                      
+
+SQL> 
+SQL> SELECT sname FROM SNeeded
+  2  GROUP BY sname
+  3  HAVING count(p#) > 3;
+
+SNAME                                                                                               
+------------------------------                                                                      
+COOKING                                                                                             
+SQL PROGRAMMING                                                                                     
+
+SQL> spool off;

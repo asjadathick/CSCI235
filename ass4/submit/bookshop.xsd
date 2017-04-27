@@ -1,0 +1,81 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="bookshop">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="product" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="price">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:float">
+                      <xs:attribute type="xs:string" name="currency" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="comments"/>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="ID" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="book" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="isbn"/>
+              <xs:element type="xs:string" name="title"/>
+              <xs:element name="authors">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="author" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="fname"/>
+                          <xs:element type="xs:string" name="lname"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="publisher"/>
+              <xs:element type="xs:short" name="year"/>
+              <xs:element type="xs:string" name="topic"/>
+              <xs:element type="xs:string" name="description"/>
+              <xs:element name="keywords" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="keyword" maxOccurs="unbounded" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="IDREF" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="journal" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="issn"/>
+              <xs:element type="xs:string" name="title"/>
+              <xs:element type="xs:byte" name="volume"/>
+              <xs:element type="xs:byte" name="issue"/>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="IDREF" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="musicCD" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="title"/>
+              <xs:element type="xs:string" name="producer"/>
+              <xs:element type="xs:short" name="year"/>
+              <xs:element type="xs:string" name="category"/>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="IDREF" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
